@@ -1,0 +1,124 @@
+//document 1
+db.bank.insert({Account_Num:3567895432,Balance:1000,Cust_Details:{Cust_Id:"sbi14",
+        Cust_Name:"Ram",Street:"GauriNagar",City:"Chennai",Loan_Amt:20000,Deposit:10000}
+        ,Branch_Details:{Branch_Name:"Tnagar",Branch_City:"Chennai",Assets:150000}})
+
+db.bank.find().pretty()
+        db.bank.drop()
+//document 2
+        db.bank.insert({Account_Num:3567895433,Balance:700,Cust_Details:{Cust_Id:"sbi15",
+        Cust_Name:"Ramu",Street:"GauriChowk",City:"Chennai",Loan_Amt:20000,Deposit:10000}
+        ,Branch_Details:{Branch_Name:"Tnagar",Branch_City:"Chennai",Assets:1450000}})
+        
+ //document 3      
+        db.bank.insert({Account_Num:3567895434,Balance:750,Cust_Details:{Cust_Id:"boi1",
+        Cust_Name:"Amir",Street:"Muruthal",City:"Sonepat",Loan_Amt:25000,Deposit:15000}
+        ,Branch_Details:{Branch_Name:"Hinjewadi",Branch_City:"Pune",Assets:140000}})
+
+ //document 4      
+        db.bank.insert({Account_Num:3567895435,Balance:800,Cust_Details:{Cust_Id:"boi2",
+        Cust_Name:"Amresh",Street:"SivajiNagar",City:"Pune",Loan_Amt:26000,Deposit:15000}
+         ,Branch_Details:{Branch_Name:"JJSquad",Branch_City:"Pune",Assets:135000}})
+ 
+        // db.bank.remove({Account_Num:3567895435},{$set:{Loan_amt:0}})
+        // db.bank.find({Account_Num:3567895435})
+  //document 5     
+        db.bank.insert({Account_Num:3567895436,Balance:900,Cust_Details:{Cust_Id:"boi3",
+        Cust_Name:"Ramu",Street:"GauriNagar",City:"Hyderabad",Loan_Amt:20000,Deposit:10000}
+        ,Branch_Details:{Branch_Name:"Tnagar",Branch_City:"Hyderabad",Assets:130000}})
+        
+  //document 6      
+        db.bank.insert({Account_Num:3567895437,Balance:900,Cust_Details:{Cust_Id:"boi4",
+        Cust_Name:"Ramesh",Street:"GauriNagar",City:"Chennai",Loan_Amt:15000,Deposit:10000}
+        ,Branch_Details:{Branch_Name:"Hitechcity",Branch_City:"Hyderabad",Assets:125000}})
+        
+
+  //document 7      
+        db.bank.insert({Account_Num:3567895438,Balance:1100,Cust_Details:{Cust_Id:"sbi5",
+        Cust_Name:"Mahesh",Street:"GauriNagar",City:"Mumbai",Loan_Amt:20000,Deposit:10000}
+        ,Branch_Details:{Branch_Name:"Tnagar",Branch_City:"Mumbai",Assets:120000}})
+        
+        
+  //document 8   
+        
+        db.bank.insert({Account_Num:3567895439,Balance:1200,Cust_Details:{Cust_Id:"sbi6",
+        Cust_Name:"Rinku",Street:"GauriHill",City:"Chennai",Loan_Amt:20000,Deposit:10000}
+        ,Branch_Details:{Branch_Name:"Tnagar",Branch_City:"Delhi",Assets:100000}})
+        
+        
+  //document 9   
+        
+        db.bank.insert({Account_Num:3567895440,Balance:1300,Cust_Details:{Cust_Id:"sbi8",
+        Cust_Name:"Rinku",Street:"GeorgeHill",City:"Chennai",Loan_Amt:20000,Deposit:10000}
+        ,Branch_Details:{Branch_Name:"Tnagar",Branch_City:"Chennai",Assets:100000}})
+ 
+  //document 10
+        db.bank.insert({Account_Num:3567895441,Balance:1400,Cust_Details:{Cust_Id:"sbi19",
+        Cust_Name:"Ram",Street:"GauriNagar2",City:"Chennai",Loan_Amt:20000,Deposit:10000}
+        ,Branch_Details:{Branch_Name:"Tnagar",Branch_City:"Chennai",Assets:90000}})
+    
+   1.//	Choose appropriate primary key(s)
+        
+        primary key:Account_Num
+    
+   2.//Create index on primary key(s)
+        db.bank.ensureIndex({Account_Num:1},{unique:true})
+    
+    
+        
+   3. //The names and cities of all borrowers
+        db.bank.find({},{"Cust_Details.Cust_Name":1,"Cust_Details.City":1})
+    
+   4. //The names of borrowers who live in Chennai
+        db.bank.aggregate([{$match:{"Cust_Details.City":"Chennai"}}]);
+       
+   5. //Find the name, city, and assets of the branch with the largest assets. 
+        db.bank. find({},{"Branch_Details.Branch_Name":1,"Branch_Details.Branch_City":1,
+                "Branch_Details.Assets":1}).sort({Assets:-1}).limit(1);
+        
+   6. //The names and cities of customers who have a loan at Pune branch
+        db.bank.find({$and:[{"Branch_Details.Branch_City":"Pune"},
+                          { "Cust_Details.Loan_Amt" :{$gt:0}}]},
+                          {"Cust_Details.Cust_Name":1,"Cust_Details.City":1})
+                          
+   7. //Find the number of accounts with balances between 700 and 900.
+        db.bank.find({$and:[{Balance:{$gte:700}},{Balance:{$lte:900}}]}).count()  
+                   
+   8. //The names of customers with both deposit and loans at Pune branch
+        db.bank.find({$and:[{"Cust_Details.Loan_Amt":{$gt:0}},
+                {"Cust_Details.Deposit":{$gt:0}},{"Branch_Details.Branch_City":"Pune"}]})
+   9.//The customers whose total loans are greater than the total amount in their bank accnts
+        db.bank.find("this.Cust_Details.Loan_Amt > this.Balance")
+
+   10. // The names of customers living on streets with names ending in "Hill".            
+        db.bank.find({"Cust_Details.Street":{$regex:/Hill$/}})  
+       
+       
+   11. // The names of customers with an account but not a loan at Pune branch     
+         db.bank.aggregate([{$match:{Account_Num :{$exists:true}}},
+	{$match:{"Cust_Details.Loan_Amt":{$exists:false}}},
+	{$match:{"Cust_Details.City":"Pune"}},
+	{ $project : { "Cust_Details.Cust_Name":1}
+	}])
+
+   12. //The names of branches whose assets are > the assets of all branches in Hyderabad
+     
+       db.bank.find({ },{"Branch_Details.Branch_Name":1}).
+	sort({"Branch_Details.Assets":-1}).limit(1)
+
+   
+    
+   13. // The branch with the largest average balance.
+      
+        db.bank.aggregate([{$group:{_id:"$Branch_Details.Branch_Name",
+               total:{$avg:"$Balance"}}}],{}).sort(total:1).limit(1) 
+          
+   14. //The branch name and number of customers for each branch
+        db.bank.aggregate([{$group:{_id:"$Branch_Details.Branch_Name" ,total:{$sum:1}}}])
+   
+   
+   15. // Deposit an additional Rs. 20,000 to Ram’s bank account. 
+          db.bank.update(
+        {  "Cust_Details.Cust_Name":"Ram" },
+        {$inc:{Balance:20000}}
+        )
