@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<script src="js/angular.min.js"></script>
+</head>
+<body ng-app="" ng-init="names =['Ram','Arjun','Raj']">
+  <input type="text" ng-model="nameFilter"/>
+  		<div ng-repeat ="name in names | filter :nameFilter">
+  		{{$index+1}}=>{{name}}
+ </body>
+ </html>=

@@ -1,0 +1,57 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/angular.min.js" ></script>
+<script type="text/javascript">
+var app=angular.module("customFilterApp",[]);
+app.controller("customFilterCtrl",function($scope){	
+$scope.names;
+
+});
+app.filter('convertUpper',function(){
+	return function(names){
+	
+//|lastone==4|lastone==5|lastone==6|lastone==7|lastone==8|lastone==9|lastone==10
+	var lastone = names.toString().split('').pop();
+	if(lastone==1)
+	{
+		var re="st"
+		var res=names.concat(re);
+		return  res;
+	}
+	else if(lastone==2)
+	{
+		var re="nd"
+		var res=names.concat(re);
+		return  res;
+	}
+	else if(lastone==3)
+	{
+		var re="rd"
+		var res=names.concat(re);
+		return  res;
+	}else
+ //if(lastone==4|lastone==5|lastone==6|lastone==7|lastone==8|lastone==9|lastone==10)
+ {
+ 	var re="th"
+		var res=names.concat(re);
+		return  res;
+ }
+
+
+      //return res;
+
+	};
+});
+</script>
+</head>
+<body ng-App="customFilterApp" ng-controller="customFilterCtrl">
+	<p>
+	Enter the number
+	<input type="textmj " ng-model="names">
+		{{names|convertUpper}}
+	</p>
+</body>
+</html>

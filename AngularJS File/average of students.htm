@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/angular.min.js" ></script>
+<style>
+	table, th, td {
+   border: 1px solid black;
+	}
+	
+</style>
+</head>
+<body>
+
+<div ng-App="studentsApp" ng-controller="studentsCtrl" >
+	<div ng-repeat="student in students">
+	<table border="0">
+		<tr><td>Name in uppercase:</td><td>{{student.name|uppercase}}</td></tr>
+		<tr><td>subjects:</td><td>
+			<ul>
+				<li ng-repeat="subject in student.subjects |orderBy:'marks'">
+				{{ subject.name+',marks:'+subject.marks}}
+			</li>
+				{{student.total()}}
+				<p>{{student.average() |number:2}}</p>
+			
+			
+			</ul>
+		</td>
+	</tr>				
+	 </table>
+	
+	
+
+
+	
+</div>
+Highest average marks:{{comparision()}}
+</div>
+<script>
+	var app=angular.module("studentsApp",[]);
+	var average1;
+			var average2;
+		app.controller("studentsCtrl",function($scope){
+			
+			$scope.students=[{
+				name:'malala',
+				subjects:[{name:'corejava',marks:10},
+				{name:'Mean',marks:15},
+				{name:'React',marks:20}],
+				total:function(){
+					sum=0;
+					for (i =0; i <$scope.students[0].subjects.length; i++) {
+						sum=sum+$scope.students[0].subjects[i].marks;
+					}
+					return sum;
+				},
+				average:function(){
+					average1=$scope.students[0].total()/$scope.students[0].subjects.length;
+ 					return average1;
+				}},
+
+			   {name:'Sindabads',
+				subjects:[{name:'corejava',marks:95},
+				{name:'Mean',marks:70},
+				{name:'React',marks:75}],
+				total:function(){
+					sum=0;
+					for (i =0; i <$scope.students[1].subjects.length; i++) {
+						sum=sum+$scope.students[1].subjects[i].marks;
+					}
+					return sum;
+				},
+				average:function(){
+					average2=$scope.students[1].total()/$scope.students[1].subjects.length;
+ 					return average2;
+				}}];
+				$scope.comparision=function()
+				{
+
+
+					if(average1>=average2)
+					{
+						return average1;
+					}
+
+					else
+					{
+						return average2;
+					}
+				}
+
+
+
+ 			
+ 			
+		});
+
+				
+</script>
+</body>
+</html>

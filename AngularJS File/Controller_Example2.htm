@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<script src="js/angular.min.js"></script>
+	<script>
+		var app=angular.module("myApp",[]);
+
+		app.controller("myCtrl",function($scope){
+				$scope.marks = [10,20,30];
+
+	});
+
+   </script>
+  </head>
+   <body ng-app="myApp" ng-controller ="myCtrl">
+     <!--input type = "text" ng-model ="age"/>-->
+
+
+     <div ng-repeat ="mark in marks">
+
+     			{{mark}}
+     	</div>
+
+     </body>
+	

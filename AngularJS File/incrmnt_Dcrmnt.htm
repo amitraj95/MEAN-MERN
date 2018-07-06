@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html >
+	<head>
+	<title>AngularJs Custom filters</title>
+		<script src="js/angular.min.js"> </script>
+	<script type="text/javascript" >
+
+		var app=angular.module("customFilterApp",[]);
+
+		app.controller("customFIlterController",function($scope){
+				$scope.name=[10,100,101,50];		
+		});	
+	app.filter("descending",function(){
+		        return function(name,value)	
+				{
+					 if(value==true)
+		             {
+					var res1=name.sort(function(a, b){return a-b});
+					//var re=res1.reverse();
+					return res1;
+					}
+
+				else
+				{
+				var res1=name.sort(function(a, b){return a-b});
+					var re=res1.reverse();
+					return re;
+				}
+
+				};
+			
+			
+					
+		});	
+		 
+		</script>
+		
+ </div>
+ </head>
+ 	<body ng-App="customFilterApp" ng-controller="customFIlterController">
+ 		
+ 		<p>{{name|descending:false}}</p>
+				
+	</body>
+</html>

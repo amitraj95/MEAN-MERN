@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<title> Angular Custom Filter Example</title>
+
+<script src="js/angular.min.js" ></script>
+ <script type="text/javascript">
+ 
+    var app = angular.module('customFilterApp',[]);
+
+    app.controller('customFilterController',function($scope) {
+    		$scope.fact = 5;
+	    
+	});
+		 	 app.filter('factorial',function() {
+		         return function(item){
+			         var result=1;
+			         for(var i=item;i>0;i--) {
+			         	result=i*result;
+			         }
+			          return result;
+
+			         };
+			    });
+
+	</script>
+	</head>
+
+	<body ng-app="customFilterApp" ng-controller="customFilterController">
+		<p>
+			Factorial:{{ fact | factorial}}
+	</p>
+ 	
+ </body>
+</html>
+	

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/angular.min.js" ></script>
+<script type="text/javascript">
+var app=angular.module("customFilterApp",[]);
+app.controller("customFilterCtrl",function($scope){	
+$scope.name="045-5658";
+});
+app.filter('convertUpper',function(){
+	return function(name){
+		
+
+// Split string by whitespace character
+   var splitString = name.split("-");
+   var ener=splitString.join()
+    var splitString1 = ener.replace(",",'\t');
+      return  splitString1
+
+	};
+});
+</script>
+</head>
+<body ng-App="customFilterApp" ng-controller="customFilterCtrl">
+	<p>
+		{{name|convertUpper}}
+	</p>
+</body>
+</html>

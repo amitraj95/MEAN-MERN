@@ -1,0 +1,126 @@
+<!DOCTYPE html >
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
+<style>
+.parentDiv{
+border-size:1px;
+left:25%;
+    margin: -50px 0 0 -50px;
+border-style:solid;
+border-color:black;
+width:800px; 
+height:400px;
+margin:0 auto;
+background-color:   #ADD8E6;
+} 
+.welcomeNote{
+font-size:30px;
+text-align: center;
+}
+</style>
+<title>CreatingAngularServices</title>
+</head>
+<body ng-app="myApp">
+
+  <div ng-controller="myCtrl" class="parentDiv">
+
+  <div>
+    <span class="welcomeNote"><b>Welcome to AngularJs Calculator:</b></span> <br/> <br/>
+      <div>
+      <table>
+        <tr>
+           <td>
+              Enter First Number:
+           </td>
+           <td>
+              <input type="number" ng-model="numberOne">
+           </td>
+        </tr>
+        <tr>
+           <td>
+              Enter Second Number:
+           </td>
+           <td>
+               <input type="number" ng-model="numberTwo">
+           </td>
+        </tr>
+        <tr>
+           <td>
+              Your operation has result:
+           </td>
+           <td>
+              <input style="background-color: yellow" type="text" ng-model="output"/>
+           </td>
+        </tr>
+      </table>
+
+      </div> <br/> 
+      <div>
+          <button ng-click="plus()">Add</button>
+          <button ng-click="subt()">Subtract</button>
+          <button ng-click="mult()">Multiply</button>
+          <button ng-click="div()">Divide</button> 
+          <button ng-click="reset()">Reset</button><br/><br/><br/>
+      </div>
+     </div>
+  </div>
+
+ <script>
+    var app = angular.module("myApp", []);
+
+    app.service("firstService", function(){
+        this.sum =  function(num1, num2){
+            return num1 + num2;
+        };
+
+        this.subtraction = function(num1, num2){
+            if(num1 > num2){
+                return num1-num2;
+            }
+            else{
+                return num2 - num1;
+            }
+        };
+
+        this.multiplication = function(num1, num2){
+            return num1 * num2;
+        }
+
+        this.division = function(num1, num2){
+            if(num2==0){
+                alert("dividend can never be zero");
+            }
+            else {
+                return num1/num2;
+            }
+        }
+    });
+
+    app.controller("myCtrl", function($scope, firstService){
+        $scope.plus = function(){
+            $scope.output = firstService.sum($scope.numberOne, $scope.numberTwo);
+        };
+
+        $scope.subt = function(){
+            $scope.output = firstService.subtraction($scope.numberOne, $scope.numberTwo);
+        };
+
+        $scope.mult = function(){
+            $scope.output = firstService.multiplication($scope.numberOne, $scope.numberTwo);
+        };
+
+        $scope.div = function(){
+            $scope.output = firstService.division($scope.numberOne, $scope.numberTwo);
+        };
+        $scope.reset = function(){
+          $scope.numberOne="";
+          $scope.numberTwo="";
+          $scope.output="";
+        }
+
+    }); 
+
+ </script>
+</body>
+</html>

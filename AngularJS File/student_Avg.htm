@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="js/angular.min.js"></script>
+</script>
+</head>
+
+<body>
+<div ng-app="studentApp" ng-controller="stdCtl">
+<table border="1">
+
+<tr><td>name of student:</td>
+	<td>{{student.name|uppercase}}</td>
+</tr>
+<tr><td>subjects wise marks:</td>
+	<td><ul><li ng-repeat="subject in student.subjects |orderBy:'marks'">
+			{{subject.name+' marks=>'+subject.marks}}</li></ul>
+	</td>
+</tr>
+<tr> <td>total marks:</td>
+	<td>{{student.total()}}</td>
+</tr> 
+<tr><td>average marks:</td>
+	<td>{{student.average()| number:2 }}%</td>
+</tr>
+
+</table>
+
+
+</div>
+
+
+<script>
+var app=angular.module("studentApp",[]);
+app.controller("stdCtl",function($scope)
+{$scope.student=
+{
+	name:'Ranju',
+	subjects:[{name:'corejava',marks:99},
+			  {name:'.net',marks:98},
+			  {name:'angularjs',marks:100}
+			  ],
+	total:function()
+			{
+			sum=0; for(var i=0;i<$scope.student.subjects.length;i++)
+				{
+					sum+=$scope.student.subjects[i].marks;
+				}
+				return sum;
+			},
+	average:function()
+			{
+				return $scope.student.total() / $scope.student.subjects.length;
+			}
+	
+};
+});
+
+</script>
+
+</body>
+
+</html>
